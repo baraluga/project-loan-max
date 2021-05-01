@@ -9,12 +9,10 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   private outputSubject = new BehaviorSubject<string>('');
   inputControl = new FormControl('', [Validators.pattern('^[-,0-9 ]+$')]);
   output$ = this.outputSubject.asObservable();
-
-  ngOnInit(): void {}
 
   find2ndMax(numbersInString: string[]): string {
     const uniqueized = Array.from(new Set(numbersInString));

@@ -1,3 +1,4 @@
+import { skip, take } from 'rxjs/operators';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -35,5 +36,23 @@ describe('AppComponent', () => {
     it('with [1, 12, 3, 98, 14], it should return 14', () => {
       expect(component.find2ndMax(['1', '12', '3', '98', '14'])).toEqual('14');
     });
+  });
+
+  it('should randomize the values of the input control', (done) => {
+    component.inputControl.valueChanges.pipe(take(1)).subscribe((value) => {
+      const inArray = String(value).split(',');
+      expect(inArray.length).toEqual(10);
+      done();
+    });
+    component.onRandomize();
+  });
+
+  it('should find the 2nd max on confirm click', (done) => {
+    component.output$.pipe(skip(1), take(1)).subscribe((output) => {
+      expect(output).toEqual('2');
+      done();
+    });
+    component.inputControl.patchValue('1, 2, 3');
+    component.onConfirm();
   });
 });
