@@ -1,0 +1,20 @@
+$uploan-primary: #1884e8;
+
+.function-output {
+  font-size: 32px;
+  font-weight: 300;
+  color: $uploan-primary;
+}
+
+.main-container {
+  width: 520px;
+  padding: 16px;
+  border-radius: 4px 4px 8px 8px;
+  margin-top: 32px;
+  border-top: 8px solid $uploan-primary;
+}
+
+.output-div {
+  background: #fafafa;
+  padding: 24px;
+}

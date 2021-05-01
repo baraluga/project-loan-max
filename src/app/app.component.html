@@ -1,0 +1,39 @@
+<div fxLayout="column" fxLayoutAlign="start center">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="start stretch"
+    class="main-container mat-elevation-z2"
+    fxLayoutGap="8px"
+  >
+    <h1>Find the 2nd Max Thingy</h1>
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="24px">
+      <mat-form-field>
+        <mat-label>Input (comma-separated)</mat-label>
+        <input
+          [formControl]="inputControl"
+          matInput
+          placeholder="Ex. 5, 5, 4, 2..."
+        />
+        <mat-error *ngIf="inputControl.hasError('pattern')">
+          Only numbers (separated with comma and/or spaces) are allowed!
+        </mat-error>
+      </mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+        <button mat-stroked-button color="accent" (click)="onRandomize()">
+          RANDOMIZE
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="inputControl.invalid"
+          (click)="onConfirm()"
+        >
+          CONFIRM INPUT
+        </button>
+      </div>
+    </div>
+    <div fxLayoutAlign="center stretch" fxLayout="row" class="output-div">
+      <span class="function-output">{{ output$ | async }}</span>
+    </div>
+  </div>
+</div>

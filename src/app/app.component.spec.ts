@@ -23,5 +23,13 @@ describe('AppComponent', () => {
     it('with [], it should return -1', () => {
       expect(component.find2ndMax([])).toEqual('-1');
     });
+
+    it('with [-2, 3], it should return -2', () => {
+      expect(component.find2ndMax(['-2', '3'])).toEqual('-2');
+    });
+
+    it('with [1, 1, 1, 1, 1, 2], it should return 1', () => {
+      expect(component.find2ndMax(['1', '1', '1', '1', '1', '2'])).toEqual('1');
+    });
   });
 });
