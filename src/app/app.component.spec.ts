@@ -31,5 +31,9 @@ describe('AppComponent', () => {
     it('with [1, 1, 1, 1, 1, 2], it should return 1', () => {
       expect(component.find2ndMax(['1', '1', '1', '1', '1', '2'])).toEqual('1');
     });
+
+    it('with [1, 12, 3, 98, 14], it should return 14', () => {
+      expect(component.find2ndMax(['1', '12', '3', '98', '14'])).toEqual('14');
+    });
   });
 });

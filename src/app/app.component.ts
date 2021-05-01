@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { numberSortAscending } from 'num-sort';
 import randomInteger from 'random-int';
 import { BehaviorSubject } from 'rxjs';
 
@@ -17,9 +18,10 @@ export class AppComponent implements OnInit {
 
   find2ndMax(numbersInString: string[]): string {
     const uniqueized = Array.from(new Set(numbersInString));
-    const sorted = uniqueized.sort();
+    const numberized = uniqueized.map((alleged) => Number(alleged));
+    const sorted = numberized.sort(numberSortAscending);
     const toBeReturned = sorted.length > 1 ? sorted[sorted.length - 2] : -1;
-    console.log({ uniqueized, sorted, toBeReturned });
+
     return toBeReturned.toString();
   }
 
