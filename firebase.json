@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/uploan-exam",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
