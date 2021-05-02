@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { numberSortAscending } from 'num-sort';
 import randomInteger from 'random-int';
@@ -16,8 +16,8 @@ export class AppComponent {
 
   find2ndMax(numbersInString: string[]): string {
     const uniqueized = Array.from(new Set(numbersInString));
-    const numberized = uniqueized.map((alleged) => Number(alleged));
-    const sorted = numberized.sort(numberSortAscending);
+    const numberized = uniqueized.map((alleged) => BigInt(alleged));
+    const sorted = numberized.sort(this.biggySortFn.bind(this));
     const toBeReturned = sorted.length > 1 ? sorted[sorted.length - 2] : -1;
 
     return toBeReturned.toString();
@@ -41,5 +41,9 @@ export class AppComponent {
     return [...Array(10).keys()].map(() =>
       randomInteger(-FLOOR_CEIL, FLOOR_CEIL)
     );
+  }
+
+  private biggySortFn(biggyOne: BigInt, biggyTwo: BigInt): number {
+    return biggyOne < biggyTwo ? -1 : biggyOne > biggyTwo ? 1 : 0;
   }
 }

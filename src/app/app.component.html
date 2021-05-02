@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="start center">
+<div fxLayout="column" fxLayoutAlign="start center" style="padding: 32px">
   <div
     fxLayout="column"
     fxLayoutAlign="start stretch"
@@ -33,7 +33,9 @@
       </div>
     </div>
     <div fxLayoutAlign="center stretch" fxLayout="row" class="output-div">
-      <span class="function-output">{{ output$ | async }}</span>
+      <span class="function-output">
+        {{ output$ | async }}
+      </span>
     </div>
     <span class="developer">Developed by baraluga</span>
   </div>
