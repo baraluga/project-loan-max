@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { numberSortAscending } from 'num-sort';
 import randomInteger from 'random-int';
 import { BehaviorSubject } from 'rxjs';
 
