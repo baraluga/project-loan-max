@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { numberSortAscending } from 'num-sort';
 import randomInteger from 'random-int';
 import { BehaviorSubject } from 'rxjs';
 
@@ -16,11 +15,47 @@ export class AppComponent {
 
   find2ndMax(numbersInString: string[]): string {
     const uniqueized = Array.from(new Set(numbersInString));
-    const numberized = uniqueized.map((alleged) => BigInt(alleged));
-    const sorted = numberized.sort(this.biggySortFn.bind(this));
-    const toBeReturned = sorted.length > 1 ? sorted[sorted.length - 2] : -1;
-
+    const toBeReturned =
+      uniqueized.length > 1 ? this.performFindingAlgorithm(uniqueized) : -1;
     return toBeReturned.toString();
+  }
+
+  private performFindingAlgorithm(input: string[]): BigInt {
+    const biggies = input.map((alleged) => BigInt(alleged));
+    const trueMax = this.reduceToTrueMax(biggies);
+    const trueMaxExcluded = biggies.filter((biggy) => biggy !== trueMax);
+    const secondMax = this.reduceTo2ndMax(trueMaxExcluded, trueMax);
+    return secondMax;
+  }
+
+  private reduceTo2ndMax(fromThis: BigInt[], trueMax: BigInt): BigInt {
+    return fromThis.reduce((secondMax, curr) => {
+      secondMax = secondMax
+        ? this.is2ndMaxCandidate(secondMax, curr, trueMax)
+          ? curr
+          : secondMax
+        : curr;
+      return secondMax;
+    }, undefined);
+  }
+
+  private is2ndMaxCandidate(
+    current: BigInt,
+    prospect: BigInt,
+    trueMax: BigInt
+  ): boolean {
+    return current < prospect && prospect < trueMax;
+  }
+
+  private reduceToTrueMax(fromThis: BigInt[]): BigInt {
+    return fromThis.reduce(
+      (trueMax, curr) => this.resolveTheMax(trueMax, curr),
+      BigInt(0)
+    );
+  }
+
+  private resolveTheMax(current: BigInt, suspect: BigInt): BigInt {
+    return current > suspect ? current : suspect;
   }
 
   onRandomize(): void {
@@ -41,9 +76,5 @@ export class AppComponent {
     return [...Array(10).keys()].map(() =>
       randomInteger(-FLOOR_CEIL, FLOOR_CEIL)
     );
-  }
-
-  private biggySortFn(biggyOne: BigInt, biggyTwo: BigInt): number {
-    return biggyOne < biggyTwo ? -1 : biggyOne > biggyTwo ? 1 : 0;
   }
 }
