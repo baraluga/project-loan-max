@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="32px">
+    <button mat-flat-button color="primary" (click)="onAssign()">
+      ASSIGN TABLE
+    </button>
+    <div
+      class="shop-customers-count"
+      fxLayout="row"
+      fxLayoutAlign="end end"
+      fxLayoutGap="16px"
+    >
+      <mat-icon>icon</mat-icon>
+      <span>{{ (occupiedTables$ | async)?.length || 0 }}</span>
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px">
+    <div
+      *ngFor="let table of occupiedTables$ | async"
+      class="occupied-table-card"
+      fxLayout="column"
+      fxLayoutAlign="start stretch"
+      fxLayoutGap="16px"
+    >
+      <span style="align-self: center">{{ table }}</span>
+      <button mat-stroked-button (click)="onVacate(table)">VACATE</button>
+    </div>
+  </div>
+</div>

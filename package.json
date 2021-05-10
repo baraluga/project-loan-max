@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~11.1.1",
     "@angular/platform-browser-dynamic": "~11.1.1",
     "@angular/router": "~11.1.1",
+    "number-array-from-range": "^1.0.1",
     "random-int": "~3.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
