@@ -17,5 +17,6 @@ import { CoffeeShopComponent } from './coffee-shop.component';
     ReactiveFormsModule,
     MatIconModule,
   ],
+  exports: [CoffeeShopComponent],
 })
 export class CoffeeShopModule {}

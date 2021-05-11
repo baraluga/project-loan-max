@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="32px">
-    <button mat-flat-button color="primary" (click)="onAssign()">
+    <button mat-stroked-button color="primary" (click)="onAssign()" fxFlex>
       ASSIGN TABLE
     </button>
     <div
@@ -9,8 +9,11 @@
       fxLayoutAlign="end end"
       fxLayoutGap="16px"
     >
-      <mat-icon>icon</mat-icon>
-      <span>{{ (occupiedTables$ | async)?.length || 0 }}</span>
+      <mat-icon>people</mat-icon>
+      <span
+        >{{ (occupiedTables$ | async)?.length || 0 }} /
+        {{ NO_OF_TABLES_SERVING }}</span
+      >
     </div>
   </div>
   <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px">
@@ -19,10 +22,10 @@
       class="occupied-table-card"
       fxLayout="column"
       fxLayoutAlign="start stretch"
-      fxLayoutGap="16px"
+      fxLayoutGap="16px 16px"
     >
       <span style="align-self: center">{{ table }}</span>
-      <button mat-stroked-button (click)="onVacate(table)">VACATE</button>
+      <button mat-button (click)="onVacate(table)" color="warn">VACATE</button>
     </div>
   </div>
 </div>

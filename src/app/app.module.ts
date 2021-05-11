@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { CoffeeShopModule } from './components/coffee-shop';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     FlexLayoutModule,
     MatTooltipModule,
+    CoffeeShopModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

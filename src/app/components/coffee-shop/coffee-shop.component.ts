@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { numberArrayFromRange } from 'number-array-from-range';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { ShopOccupancy } from './coffee-shop.models';
+import {
+  AllocationStrategies,
+  AllocationStrategy,
+} from './coffee-shop.strategies';
 
 @Component({
   selector: 'app-coffee-shop',
@@ -43,94 +47,26 @@ export class CoffeeShopComponent implements OnInit {
   }
 
   private getBestTable$(): Observable<number> {
-    return this.getBestSegment$().pipe(
-      map((segment) => this.findBestTable(segment))
-    );
-  }
-
-  private findBestTable(within: VacancySegment): number {
-    const [from, to] = within;
-    const possibleTables = numberArrayFromRange(from + 1, to - 1);
-    return possibleTables.find((table) => {
-      const distance = this.getDistanceFromSegmentEnds(table, within);
-      return this.isDistanceFromSegmentEndsBest(distance);
-    });
-  }
-
-  private isDistanceFromSegmentEndsBest(
-    distance: DistanceFromSegmentEnds
-  ): boolean {
-    const [fromHead, fromTail] = distance;
-    return Math.abs(fromHead - fromTail) <= 1;
-  }
-
-  private getDistanceFromSegmentEnds(
-    reference: number,
-    segmentEnds: VacancySegment
-  ): DistanceFromSegmentEnds {
-    const [head, tail] = segmentEnds;
-    return [reference - head, tail - reference];
-  }
-
-  private getBestSegment$(): Observable<VacancySegment> {
-    return this.getVacancySegments$().pipe(
-      map((segments) => this.findBestSegment(segments))
-    );
-  }
-
-  private findBestSegment(segments: VacancySegment[]): VacancySegment {
-    return segments.reduce(
-      (best, segment) => this.resolveBetterSegment(best, segment),
-      segments[0]
-    );
-  }
-
-  private resolveBetterSegment(
-    first: VacancySegment,
-    second: VacancySegment
-  ): VacancySegment {
-    return this.getSegmentLength(first) >= this.getSegmentLength(second)
-      ? first
-      : second;
-  }
-
-  private getSegmentLength(segment: VacancySegment): number {
-    return segment[1] - segment[0];
-  }
-
-  private getVacancySegments$(): Observable<VacancySegment[]> {
     return this.getOccupiedTables$().pipe(
-      map((tables) => this.buildSegments(tables))
+      map((occupied) =>
+        this.findBestStrategy(occupied).findBest(
+          occupied,
+          this.NO_OF_TABLES_SERVING
+        )
+      )
     );
   }
 
-  private buildSegments(from: number[]): VacancySegment[] {
-    const segment = [];
-    for (let i = 0; i < from.length - 1; i++) {
-      segment.push([from[i], from[i + 1]]);
-    }
-    return segment;
+  private findBestStrategy(occupied: number[]): AllocationStrategy {
+    return AllocationStrategies.find((strategy) =>
+      strategy.shouldApply(occupied)
+    );
   }
+
   private initializeShopOccupancyLayout(): ShopOccupancy {
     return new Array(this.NO_OF_TABLES_SERVING).reduce((acc, _, idx) => {
       acc[idx] = '';
       return acc;
     }, {});
-    // return {
-    //   1: '*',
-    //   2: '',
-    //   3: '',
-    //   4: '',
-    //   5: '*',
-    //   6: '',
-    //   7: '',
-    //   8: '',
-    //   9: '',
-    //   10: '*',
-    // };
   }
 }
-
-type ShopOccupancy = { [tableNumber: number]: string };
-type VacancySegment = [number, number];
-type DistanceFromSegmentEnds = [number, number];
